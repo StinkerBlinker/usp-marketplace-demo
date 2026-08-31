@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Order Confirmed{% endblock %}
+{% block content %}
+<div class="confirmation-card">
+  <h1>✅ Order Confirmed</h1>
+  <p>Confirmation Code: <strong>{{ order['confirmation_code'] }}</strong></p>
+  <p>Date: {{ order['created_at'] }}</p>
+
+  <div class="confirmation-items">
+    {% for item in items %}
+    <div class="confirmation-row">
+      <span>{{ item['title'] }}</span>
+      <span>${{ '%.2f'|format(item['price']) }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <p class="confirmation-total">Total Paid (Simulated): <strong>${{ '%.2f'|format(order['total']) }}</strong></p>
+  <a href="{{ url_for('listings') }}" class="btn-primary">Continue Browsing</a>
+</div>
+{% endblock %}

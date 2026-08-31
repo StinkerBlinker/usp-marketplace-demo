@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}USP Marketplace{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="navbar">
+    <a href="{{ url_for('listings') }}" class="logo">USP Marketplace</a>
+    <nav>
+      <a href="{{ url_for('listings') }}">Browse</a>
+      <a href="{{ url_for('add_listing') }}">Sell an Item</a>
+      <a href="{{ url_for('view_cart') }}">Cart ({{ session.get('cart', [])|length }})</a>
+      <form method="POST" action="{{ url_for('reset_demo') }}" style="display:inline;">
+        <button type="submit" class="btn-link-nav">Reset Demo</button>
+      </form>
+    </nav>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

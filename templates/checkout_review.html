@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+<h1>Order Summary</h1>
+
+<div class="cart-list">
+  {% for item in cart_items %}
+  <div class="cart-row">
+    <div>
+      <strong>{{ item['title'] }}</strong>
+      <span class="muted">{{ item['category'] }}</span>
+    </div>
+    <div class="price">${{ '%.2f'|format(item['price']) }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="cart-total"><strong>Total: ${{ '%.2f'|format(total) }}</strong></div>
+
+<form method="POST" action="{{ url_for('checkout') }}" class="form-card">
+  <label>Payment Method (Simulated)</label>
+  <select name="payment_method">
+    <option>Simulated Card Payment</option>
+    <option>Simulated M-PAiSA</option>
+  </select>
+
+  <label class="checkbox-label">
+    <input type="checkbox" name="simulate_failure" value="yes">
+    Simulate a failed payment (for testing)
+  </label>
+
+  <button type="submit" class="btn-primary btn-large">Confirm and Pay</button>
+</form>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit Listing' if item else 'Sell an Item' }}{% endblock %}
+{% block content %}
+<h1>{{ 'Edit Listing' if item else 'Sell an Item' }}</h1>
+<form method="POST" action="{{ url_for('edit_listing', listing_id=item['id']) if item else url_for('add_listing') }}" class="form-card">
+  <label>Title</label>
+  <input type="text" name="title" value="{{ item['title'] if item else '' }}">
+
+  <label>Price (FJD)</label>
+  <input type="number" step="0.01" min="0" name="price" value="{{ item['price'] if item else '' }}">
+
+  <label>Category</label>
+  <select name="category">
+    {% for c in ['Textbooks', 'Electronics', 'Dorm Essentials', 'Other'] %}
+    <option {% if item and item['category'] == c %}selected{% endif %}>{{ c }}</option>
+    {% endfor %}
+  </select>
+
+  <label>Pickup Location</label>
+  <select name="pickup_location">
+    {% for p in ['Library', 'Student Union', 'Hostel Block A', 'Hostel Block B', 'Bus Stop'] %}
+    <option {% if item and item['pickup_location'] == p %}selected{% endif %}>{{ p }}</option>
+    {% endfor %}
+  </select>
+
+  <label>Image URL (optional)</label>
+  <input type="text" name="image_url" value="{{ item['image_url'] if item else '' }}" placeholder="Paste an image link, or leave blank">
+
+  <label>Contact (email or phone)</label>
+  <input type="text" name="contact" value="{{ item['contact'] if item else '' }}" placeholder="e.g. yourname@student.usp.ac.fj">
+
+  <label>Description</label>
+  <textarea name="description" rows="4">{{ item['description'] if item else '' }}</textarea>
+
+  <label>Seller Name</label>
+  <input type="text" name="seller_name" value="{{ item['seller_name'] if item else '' }}" placeholder="e.g. Joshua D.">
+
+  <button type="submit" class="btn-primary">{{ 'Save Changes' if item else 'Post Listing' }}</button>
+</form>
+{% endblock %}
